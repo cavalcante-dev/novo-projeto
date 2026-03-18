@@ -1,10 +1,10 @@
-const bcrypt = require("bcrypt");
-const Usuario = require("../models/Usuario");
+const bcrypt = require('bcrypt');
+const Usuario = require('../models/Usuario');
 const {
   gerarAccessToken,
   gerarRefreshToken,
   validarRefreshToken,
-} = require("../config/jwt");
+} = require('../config/jwt');
 
 exports.register = async (req, res) => {
   try {
@@ -12,39 +12,38 @@ exports.register = async (req, res) => {
 
     // Verifica se usuario já existe com email único.
     const exists = await Usuario.findOne({ where: { email } });
-    if (exists) return res.status(409).json({ error: "E-mail já cadastrado." });
+    if (exists) return res.status(409).json({ error: 'E-mail já cadastrado.' });
 
     // Criptografa a senha e cria o usuario.
-    const hashed = await bcrypt.hash(password, 10);
-    const usuario = await Usuario.create({ nome, email, password: hashed });
+    const hashed = await bcrypt.hash(chave, 10);
+    const usuario = await Usuario.create({ nome, email, chave: hashed });
 
     return res
       .status(201)
       .json({ id: usuario.id, nome: usuario.nome, email: usuario.email });
   } catch (err) {
-    return res.status(500).json({ error: "Erro ao registrar usuário." });
+    return res.status(500).json({ error: 'Erro ao registrar usuário.' });
   }
 };
 
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, chave } = req.body;
 
     // Verifica se usuario já existe com email único.
     const usuario = await Usuario.findOne({ where: { email } });
-    if (!user)
-      return res.status(404).json({ error: "Usuário não encontrado." });
+    if (!usuario) { return res.status(404).json({ error: 'Usuário não encontrado.' }); }
 
     // Valida a senha criptografada.
-    const valid = await bcrypt.compare(password, user.password);
-    if (!valid) return res.status(401).json({ error: "Senha incorreta." });
+    const valid = await bcrypt.compare(chave, usuario.chave);
+    if (!valid) return res.status(401).json({ error: 'Senha incorreta.' });
 
     const accessToken = gerarAccessToken(usuario.id);
-    const refreshToken = gerarRefreshTokenToken(usuario.id);
+    const refreshToken = gerarRefreshToken(usuario.id);
 
     return res.status(200).json({ accessToken, refreshToken });
   } catch (err) {
-    return res.status(500).json({ error: "Erro ao realizar login." });
+    return res.status(500).json({ error: 'Erro ao realizar login.' });
   }
 };
 
@@ -53,7 +52,7 @@ exports.refresh = async (req, res) => {
     const { refreshToken } = req.body;
 
     if (!refreshToken) {
-      return res.status(401).json({ error: "Refresh token não fornecido." });
+      return res.status(401).json({ error: 'Refresh token não fornecido.' });
     }
 
     const decoded = validarRefreshToken(refreshToken);
@@ -61,6 +60,6 @@ exports.refresh = async (req, res) => {
 
     return res.status(200).json({ accessToken });
   } catch (err) {
-    return res.status(500).json({ error: "Erro ao realizar login." });
+    return res.status(500).json({ error: 'Erro ao realizar login.' });
   }
 };

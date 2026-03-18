@@ -1,8 +1,12 @@
 {
-  "extends": "airbnb",
+  "extends": ["airbnb-base"],
+  "env": {
+    "node": true,
+    "es2021": true
+  },
   "rules": {
-    "operator-linebreak": "off",
-    "object-curly-newline": "off",
-    "linebreak-style": 0
+    "no-console": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-unresolved": "off"
   }
 }

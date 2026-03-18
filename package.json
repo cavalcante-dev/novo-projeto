@@ -5,8 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon",
-    "lint": "eslint --ext .js,.html -f eslint-friendly-formatter . --fix",
-    "prepush": "npm run lint",
+    "lint": "eslint --ext .js .",
     "start": "node server.js"
   },
   "keywords": [
@@ -34,11 +33,11 @@
     }
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-plugin-html": "^6.0.0",
-    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-import": "^2.25.2",
     "husky": "^4.2.3",
     "nodemon": "^2.0.2"
   },
