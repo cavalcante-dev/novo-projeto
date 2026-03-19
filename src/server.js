@@ -6,14 +6,17 @@ const sequelize = require('./config/database');
 const PORT = process.env.PORT || 3000;
 const server = http.createServer(app);
 
-sequelize.authenticate()
-  .then(() => {
+const start = async () => {
+  try {
+    await sequelize.authenticate();
     console.log('- Banco de Dados Conectado');
     server.listen(PORT, () => {
-      console.log(`Servidor rodando na porta: ${PORT}`);
+      console.log(`- Servidor rodando na porta: ${PORT}`);
     });
-  })
-  .catch((err) => {
-    console.error('Erro ao conectar ao banco:', err);
+  } catch (err) {
+    console.error('Erro ao conectar ao banco:', err.message);
     process.exit(1);
-  });
+  }
+};
+
+start();

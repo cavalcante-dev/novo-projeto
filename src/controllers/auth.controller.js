@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+
 const Usuario = require('../models/Usuario');
 const {
   gerarAccessToken,
@@ -6,7 +7,7 @@ const {
   validarRefreshToken,
 } = require('../config/jwt');
 
-exports.register = async (req, res) => {
+exports.registrar = async (req, res) => {
   try {
     const { nome, email, chave } = req.body;
 
@@ -22,7 +23,7 @@ exports.register = async (req, res) => {
       .status(201)
       .json({ id: usuario.id, nome: usuario.nome, email: usuario.email });
   } catch (err) {
-    return res.status(500).json({ error: 'Erro ao registrar usuário.' });
+    return res.status(500).json({ error: 'Erro ao registrar usuário.', codigo: err });
   }
 };
 
@@ -43,7 +44,7 @@ exports.login = async (req, res) => {
 
     return res.status(200).json({ accessToken, refreshToken });
   } catch (err) {
-    return res.status(500).json({ error: 'Erro ao realizar login.' });
+    return res.status(500).json({ error: 'Erro ao realizar login.', codigo: err });
   }
 };
 
@@ -60,6 +61,6 @@ exports.refresh = async (req, res) => {
 
     return res.status(200).json({ accessToken });
   } catch (err) {
-    return res.status(500).json({ error: 'Erro ao realizar login.' });
+    return res.status(500).json({ error: 'Erro ao realizar login.', codigo: err });
   }
 };
