@@ -7,7 +7,8 @@
     "dev": "nodemon",
     "start": "node src/server.js",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "test": "jest"
   },
   "keywords": [
     "node.js",
@@ -38,6 +39,7 @@
     "eslint": "^10.0.3",
     "globals": "^17.4.0",
     "husky": "^4.2.3",
+    "jest": "^30.3.0",
     "nodemon": "^2.0.2"
   },
   "dependencies": {
